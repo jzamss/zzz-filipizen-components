@@ -12,9 +12,9 @@ import {
   currencyFormat,
   Service,
   Loading,
-  useDataContext,
+  useEntity,
   Spacer
-} from "rsi-react-components";
+} from "zzz-react-components";
 
 import PaymayaCheckout from "../paypartner/PaymayaCheckout";
 import GCashCheckout from "../paypartner/GCashCheckout";
@@ -25,7 +25,7 @@ const paypartnerCheckout = {
 };
 
 const OnlinePayment = ({ partner }) => {
-  const [ctx] = useDataContext();
+  const [entity, setEntity] = useEntity();
   const [loading, setLoading] = useState(false);
   const [processingPayment, setProcessingPayment] = useState(false);
   const [error, setError] = useState();
@@ -36,7 +36,7 @@ const OnlinePayment = ({ partner }) => {
   const [mode, setMode] = useState("payment");
   const [option, setOption] = useState({});
 
-  const {po, payOptions } = ctx;
+  const {po, payOptions } = entity;
   const postForm = useRef(null);
 
   useEffect(() => {

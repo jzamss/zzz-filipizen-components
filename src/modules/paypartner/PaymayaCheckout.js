@@ -14,7 +14,7 @@ import {
   currencyFormat,
   Form,
   OnFieldChange
-} from "rsi-react-components";
+} from "zzz-react-components";
 
 const MDR = 0.015;
 const WALLET_FEE = 10.0;

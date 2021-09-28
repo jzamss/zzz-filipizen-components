@@ -13,7 +13,7 @@ import {
   currencyFormat,
   Subtitle,
   Spacer,
-} from "rsi-react-components";
+} from "zzz-react-components";
 
 const EPaymentSuccess = (props) => {
   const [payment, setPayment] = useState({});

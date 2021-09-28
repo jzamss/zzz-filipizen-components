@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Service } from "rsi-react-components";
+import { Service } from "zzz-react-components";
 
 const getPartnerFromLocation = (location) => {
   return new Promise((resolve, reject) => {

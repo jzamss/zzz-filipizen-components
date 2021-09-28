@@ -1,5 +1,5 @@
 import React from "react";
-import { PageFlow, Service, useDataContext } from "rsi-react-components";
+import { PageFlow, useEntity } from "zzz-react-components";
 
 import EmailVerification from "../verification/EmailVerification";
 import ContactVerification from '../verification/ContactVerification';
@@ -14,13 +14,11 @@ const pages = [
 ];
 
 
-const EPayment =  ({ title, partner, moveNextStep, movePrevStep }) => {
-  const [ctx] = useDataContext();
-  
+const EPayment =  ({ title, partner }) => {
   return (
     <PageFlow
+      name="epayment"
       title={title}
-      initialData={ctx}
       partner={partner}
       pages={pages}
     />

@@ -6,9 +6,9 @@ import {
   Service,
   Wizard,
   FormButton,
-  useDataContext,
-  Panel
-} from "rsi-react-components";
+  useEntity,
+  Panel,
+} from "zzz-react-components";
 
 import { usePartner } from "../../hooks";
 
@@ -23,28 +23,21 @@ const ContactVerification = ({
   emailRequired = true,
   moveNextStep
 }) => {
-  const [ctx, updateCtx] = useDataContext();
+  const [_, setEntity] = useEntity();
   const [partner] = usePartner();
 
   if (!visible) return null;
 
-  const verifyEmail = async (contact) => {
-    const emailSvc = Service.lookupAsync(
-      `${partner.id}:VerifyEmailService`,
-      connection
-    );
-    return emailSvc.invoke("verifyEmail", contact);
-  };
-
-  const submitInfo = (data, onError, form) => {
-    verifyEmail(data.contact)
-      .then((data) => {
-        form.change("hiddenCode", data.key);
-        onError(false);
-      })
-      .catch((err) => {
+  const verifyContactInfo = (data, onError, form) => {
+    const emailSvc = Service.lookupAsync(`${partner.id}:VerifyEmailService`, connection);
+    return emailSvc.invoke("verifyEmail", data.contact, (err, data) => {
+      if (err) {
         onError(err);
-      });
+      } else {
+        form.change("hiddenCode", data.key);
+        onError();
+      }
+    });
   };
 
   const verifyCode = (data, onError) => {
@@ -52,29 +45,31 @@ const ContactVerification = ({
     if (hiddenCode !== keycode) {
       onError("Code is incorrect");
     } else {
-      onError(false);
+      onError();
     }
   };
 
-  const handleSubmit = (data) => {
-    data.contact.verified = true;
-    updateCtx({ contact: data.contact });
+  const handleSubmit = (entity) => {
+    entity.contact.verified = true;
+    setEntity(draft => { 
+      draft.contact = entity.contact;
+      return draft;
+    });
     moveNextStep();
   };
 
-  const setIsResendCode = (args) => {
-    const { data, form } = args;
+  const setIsResendCode = ({data, form}) => {
     const callback = (error) => {
       if (!error) {
         window.alert("New verification code sent");
       }
     };
-    submitInfo(data, callback, form);
+    verifyContactInfo(data, callback, form);
   };
 
   return (
     <Wizard
-      initialData={{
+      initialEntity={{
         contact: {},
         hiddenCode: null,
         keycode: null,
@@ -86,7 +81,7 @@ const ContactVerification = ({
       title={title}
       subtitle={subtitle || (page && page.caption)}
     >
-      <Wizard.Page onSubmit={submitInfo} onCancel={onCancel}>
+      <Wizard.Page onSubmit={verifyContactInfo} onCancel={onCancel}>
         <Panel style={{ minWidth: 400 }}>
           {showName && (
             <React.Fragment>
@@ -116,6 +111,7 @@ const ContactVerification = ({
             name="keycode"
             maxLength={6}
             autoFocus={true}
+            required={true}
           />
           <div
             style={{

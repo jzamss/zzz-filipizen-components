@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import PartnerContext from "./PartnerContext";
+import PartnerContext from "../contexts/PartnerContext";
 
 const usePartner = () => {
   return useContext(PartnerContext);

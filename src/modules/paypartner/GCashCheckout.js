@@ -12,7 +12,7 @@ import {
   Button,
   Spacer,
   currencyFormat
-} from "rsi-react-components";
+} from "zzz-react-components";
 
 const GCASH_FEE = 10.0;
 const RAMESES_FEE = 20.0;

@@ -9,7 +9,7 @@ import {
   Label,
   Content,
   getUrlParameter
-} from "rsi-react-components";
+} from "zzz-react-components";
 
 const EPaymentError = ({partner, history, location}) => {
   const [message, setMessage] = useState();
