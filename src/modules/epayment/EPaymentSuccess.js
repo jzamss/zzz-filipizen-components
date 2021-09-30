@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Form,
   Panel,
@@ -15,29 +15,23 @@ import {
   Spacer,
 } from "zzz-react-components";
 
-const EPaymentSuccess = (props) => {
-  const [payment, setPayment] = useState({});
-  const { partner } = props;
-
-  useEffect(() => {
-    const payment = {
-      orgcode: getUrlParameter(props.location, "orgcode"),
-      paymentrefid: getUrlParameter(props.location, "paymentrefid"),
-      txnno: getUrlParameter(props.location, "txnno"),
-      txndate: getUrlParameter(props.location, "txndate"),
-      amount: getUrlParameter(props.location, "amount"),
-      paypartnerid: getUrlParameter(props.location, "paypartnerid"),
-      paidby: getUrlParameter(props.location, "paidby"),
-      email: getUrlParameter(props.location, "email"),
-    }
-    setPayment(payment);
-  }, []);
+const EPaymentSuccess = ({partner, history, location}) => {
+  const payment = {
+    orgcode: getUrlParameter(location, "orgcode"),
+    paymentrefid: getUrlParameter(location, "paymentrefid"),
+    txnno: getUrlParameter(location, "txnno"),
+    txndate: getUrlParameter(location, "txndate"),
+    amount: getUrlParameter(location, "amount"),
+    paypartnerid: getUrlParameter(location, "paypartnerid"),
+    paidby: getUrlParameter(location, "paidby"),
+    email: getUrlParameter(location, "email"),
+  }
 
   const onClose = () => {
     if (partner && partner.name) {
-      props.history.replace(`/partner/${partner.name}/services`, {partner});
+      history.replace(`/partner/${partner.name}/services`, {partner});
     } else {
-      props.history.replace("/partners");
+      history.replace("/partners");
     }
   };
 
@@ -57,7 +51,7 @@ const EPaymentSuccess = (props) => {
         <Content center>
           <Image src="/assets/success.png" width={60} alt="success" />
           <Subtitle style={{fontSize: 24}}>Payment Successful</Subtitle>
-          <Form initialData={payment}>
+          <Form initialEntity={payment}>
             <Panel style={styles.paymentInfoContainer}>
               <Text caption="Transaction #" name="txnno" readOnly={true} />
               <Text caption="Payment Date #" name="txndate" readOnly={true} />

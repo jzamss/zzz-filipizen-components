@@ -13,13 +13,15 @@ import {
   currencyFormat,
   MsgBox,
   useEntity,
-  Service
+  Service,
+  useSessionStorage,
 } from "zzz-react-components";
 
 const CheckoutOrder = ({ partner, movePrevStep, moveNextStep }) => {
   const [entity, setEntity] = useEntity();
   const [error, setError] = useState();
   const [showMsg, setShowMsg] = useState(false);
+  useSessionStorage(partner.id, partner);
 
   const createPaymentOrder = (bill, form, callback) => {
     setError(null);
@@ -83,9 +85,7 @@ const CheckoutOrder = ({ partner, movePrevStep, moveNextStep }) => {
             </Panel>
             <Spacer />
             <Panel style={styles.infoContainer}>
-              <div
-                style={{ ...styles.infoContainer, ...{ alignItems: "center" } }}
-              >
+              <div style={{ ...styles.infoContainer, ...{ alignItems: "center" } }}>
                 <label>Payment Details</label>
                 <h4>{bill.particulars}</h4>
               </div>

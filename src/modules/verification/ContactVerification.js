@@ -8,6 +8,8 @@ import {
   FormButton,
   useEntity,
   Panel,
+  Label,
+  Spacer,
 } from "zzz-react-components";
 
 import { usePartner } from "../../hooks";
@@ -82,7 +84,12 @@ const ContactVerification = ({
       subtitle={subtitle || (page && page.caption)}
     >
       <Wizard.Page onSubmit={verifyContactInfo} onCancel={onCancel}>
-        <Panel style={{ minWidth: 400 }}>
+        <Panel>
+          <Label>
+            A validation key will be sent to your email. Please
+            make sure your email is valid and you have access to it.
+          </Label>
+          <Spacer />
           {showName && (
             <React.Fragment>
               <Text
@@ -104,7 +111,7 @@ const ContactVerification = ({
       </Wizard.Page>
 
       <Wizard.Page onSubmit={verifyCode}>
-        <Panel style={{ minWidth: 400 }}>
+        <Panel>
           <Text
             caption="Email Code"
             placeholder="Enter code sent to your email"
